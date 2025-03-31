@@ -1,0 +1,70 @@
+[
+  {
+    "ContainingType": "MicrowaveApp.WebApi.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "MicrowaveApp.WebApi.Models.Login",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MicrowaveApp.WebApi.Controllers.MicrowaveController",
+    "Method": "StartHeating",
+    "RelativePath": "api/Microwave/start",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MicrowaveApp.WebApi.Models.HeatingRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MicrowaveApp.WebApi.Controllers.ProgramsController",
+    "Method": "GetCustomPrograms",
+    "RelativePath": "api/Programs/custom",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MicrowaveApp.WebApi.Controllers.ProgramsController",
+    "Method": "AddCustomProgram",
+    "RelativePath": "api/Programs/custom",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "program",
+        "Type": "MicrowaveApp.Business.Models.CustomProgram",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MicrowaveApp.WebApi.Controllers.ProgramsController",
+    "Method": "GetPredefinedPrograms",
+    "RelativePath": "api/Programs/predefined",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]
