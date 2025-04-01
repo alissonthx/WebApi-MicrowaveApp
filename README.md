@@ -2,9 +2,9 @@
 ![Microwave Icon](https://img.icons8.com/fluency/48/000000/microwave.png)  
 ![.NET Version](https://img.shields.io/badge/.NET-8.0-purple)  
 
-### Features
+### Features / Funcionalidades
 - JWT-based authentication
-- Microwave program management
+- Microwave program management 
 - Custom heating profiles
 - Modern .NET 8 backend
 - Secure API endpoints
