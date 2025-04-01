@@ -29,7 +29,6 @@ E:\C#\MicrowaveApp.WebApi\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 E:\C#\MicrowaveApp.WebApi\bin\Debug\net8.0\MicrowaveApp.Business.dll
 E:\C#\MicrowaveApp.WebApi\bin\Debug\net8.0\Newtonsoft.Json.dll
 E:\C#\MicrowaveApp.WebApi\bin\Debug\net8.0\MicrowaveApp.Business.pdb
-E:\C#\MicrowaveApp.WebApi\bin\Debug\net8.0\Newtonsoft.Json.xml
 E:\C#\MicrowaveApp.WebApi\obj\Debug\net8.0\scopedcss\bundle\MicrowaveApp.WebApi.styles.css
 E:\C#\MicrowaveApp.WebApi\obj\Debug\net8.0\staticwebassets.build.json
 E:\C#\MicrowaveApp.WebApi\obj\Debug\net8.0\staticwebassets.development.json
@@ -47,3 +46,4 @@ E:\C#\MicrowaveApp.WebApi\obj\Debug\net8.0\refint\MicrowaveApp.WebApi.dll
 E:\C#\MicrowaveApp.WebApi\obj\Debug\net8.0\MicrowaveApp.WebApi.pdb
 E:\C#\MicrowaveApp.WebApi\obj\Debug\net8.0\MicrowaveApp.WebApi.genruntimeconfig.cache
 E:\C#\MicrowaveApp.WebApi\obj\Debug\net8.0\ref\MicrowaveApp.WebApi.dll
+E:\C#\MicrowaveApp.WebApi\obj\Debug\net8.0\MicrowaveApp.WebApi.sourcelink.json
