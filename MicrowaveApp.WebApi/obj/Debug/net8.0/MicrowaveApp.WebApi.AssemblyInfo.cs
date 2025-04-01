@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MicrowaveApp.WebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+022e1fca2a51441fac6af426e865c9a5dff4a7f9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc8d1b3ae71c1004a8312e365691f80c4818d7ee")]
 [assembly: System.Reflection.AssemblyProductAttribute("MicrowaveApp.WebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MicrowaveApp.WebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
