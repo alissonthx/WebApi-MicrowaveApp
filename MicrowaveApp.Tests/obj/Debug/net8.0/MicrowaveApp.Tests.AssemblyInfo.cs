@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MicrowaveApp.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+01136f56753f384a45bef8e92584635fc2ef45d5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4ea2dbf387604de604135751217981beb236fa7")]
 [assembly: System.Reflection.AssemblyProductAttribute("MicrowaveApp.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MicrowaveApp.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
