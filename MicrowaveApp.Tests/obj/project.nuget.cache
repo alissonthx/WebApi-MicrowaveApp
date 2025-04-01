@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "z9fWftd9ctI=",
+  "dgSpecHash": "b4jm48wCtr4=",
   "success": true,
-  "projectFilePath": "E:\\C#\\MicrowaveApp.Tests\\MicrowaveApp.Tests.csproj",
+  "projectFilePath": "E:\\C#\\MicrowaveApp\\MicrowaveApp.Tests\\MicrowaveApp.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tempest\\.nuget\\packages\\microsoft.applicationinsights\\2.22.0\\microsoft.applicationinsights.2.22.0.nupkg.sha512",
     "C:\\Users\\Tempest\\.nuget\\packages\\microsoft.codecoverage\\17.12.0\\microsoft.codecoverage.17.12.0.nupkg.sha512",
