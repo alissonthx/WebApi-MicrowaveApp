@@ -44,7 +44,7 @@ dotnet run
 Username / Usuário: admin
 Password / Senha:   admin123
 ```
-## 🔄 Login Flow / Fluxo de Login
+## Login Flow / Fluxo de Login
 
 ```mermaid
 graph LR
