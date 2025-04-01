@@ -22,8 +22,9 @@ dotnet restore
 ```
 ## ▶️ Run Applications / Executar Aplicações
 
-**Note**: *In case of using Visual Studio, open MicrowaveApp.sln on path MicrowaveApp\MicrowaveApp.UI / Em caso de estar utilizando Visual Studio, abra  MicrowaveApp.sln no diretório MicrowaveApp\MicrowaveApp.UI
-Run in separate terminals / Executar em terminais separados*:
+**Note**: *In case of using Visual Studio, open MicrowaveApp.sln on path MicrowaveApp\MicrowaveApp.UI / Em caso de estar utilizando Visual Studio, abra  MicrowaveApp.sln no diretório MicrowaveApp\MicrowaveApp.UI*
+
+Run in separate terminals / Executar em terminais separados:
 
 ```bash
 # Terminal 1 - API
