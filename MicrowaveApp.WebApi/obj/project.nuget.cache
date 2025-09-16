@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VtkXhzaPWXA=",
+  "dgSpecHash": "AuID7bJkkFU=",
   "success": true,
-  "projectFilePath": "E:\\C#\\MicrowaveApp.WebApi\\MicrowaveApp.WebApi.csproj",
+  "projectFilePath": "E:\\C#\\MicrowaveApp\\MicrowaveApp.WebApi\\MicrowaveApp.WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tempest\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",
     "C:\\Users\\Tempest\\.nuget\\packages\\microsoft.bcl.memory\\9.0.0\\microsoft.bcl.memory.9.0.0.nupkg.sha512",
