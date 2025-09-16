@@ -2,9 +2,9 @@
 ![Microwave Icon](https://img.icons8.com/fluency/48/000000/microwave.png)  
 ![.NET Version](https://img.shields.io/badge/.NET-8.0-purple)  
 
-### Features
+### Features / Funcionalidades
 - JWT-based authentication
-- Microwave program management
+- Microwave program management 
 - Custom heating profiles
 - Modern .NET 8 backend
 - Secure API endpoints
@@ -21,6 +21,8 @@ cd MicrowaveApp
 dotnet restore
 ```
 ## ▶️ Run Applications / Executar Aplicações
+
+**Note**: *In case of using Visual Studio, open MicrowaveApp.sln on path MicrowaveApp\MicrowaveApp.UI / Em caso de estar utilizando Visual Studio, abra  MicrowaveApp.sln no diretório MicrowaveApp\MicrowaveApp.UI*
 
 Run in separate terminals / Executar em terminais separados:
 
@@ -44,7 +46,7 @@ dotnet run
 Username / Usuário: admin
 Password / Senha:   admin123
 ```
-## 🔄 Login Flow / Fluxo de Login
+## Login Flow / Fluxo de Login
 
 ```mermaid
 graph LR
@@ -78,3 +80,7 @@ graph LR
 | JwtSecurityTokenHandler                | 6.32.0  | [NuGet](https://www.nuget.org/packages/System.IdentityModel.Tokens.Jwt/6.32.0) |
 | Newtonsoft.Json                        | 13.0.3  | [NuGet](https://www.nuget.org/packages/Newtonsoft.Json/13.0.3) |
 | Microsoft.AspNetCore.Authentication.JwtBearer | 8.0.0  | [NuGet](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.JwtBearer/8.0.0) |
+| Microsoft.NET.Test.Sdk | 17.13.0 | [NuGet](https://www.nuget.org/packages/Microsoft.NET.Test.Sdk/17.13.0) |  
+| Microsoft.Testing.Extensions.CodeCoverage | 17.14.2 | [NuGet](https://www.nuget.org/packages/Microsoft.Testing.Extensions.CodeCoverage/17.14.2) |  
+| Microsoft.Testing.Extensions.TrxReport | 1.6.3 | [NuGet](https://www.nuget.org/packages/Microsoft.Testing.Extensions.TrxReport/1.6.3) |  
+| MSTest | 3.8.3 | [NuGet](https://www.nuget.org/packages/MSTest/3.8.3) |  
