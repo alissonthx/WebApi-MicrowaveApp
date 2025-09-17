@@ -17,7 +17,7 @@ git clone https://github.com/alissonthx/MicrowaveApp.git
 ```
 2. **Restore dependencies / Restaurar pacotes**:
 ```bash
-dotnet restore
+dotnet restore .\MicrowaveApp.UI\MicrowaveApp.sln
 ```
 ## ▶️ Run Applications / Executar Aplicações
 
