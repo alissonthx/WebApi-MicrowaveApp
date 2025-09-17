@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrowaveApp.Business", "MicrowaveApp.Business\MicrowaveApp.Business.csproj", "{3C2BAC85-EF15-4DC5-8C7F-72537D0F3982}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrowaveApp.WebApi", "MicrowaveApp.WebApi\MicrowaveApp.WebApi.csproj", "{B11CD11F-3A60-479F-AB7D-5BC3C761B6CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrowaveApp.Tests", "MicrowaveApp.Tests\MicrowaveApp.Tests.csproj", "{79D7D230-1FAC-422E-AFC3-7B22D781ED4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrowaveApp.AvaloniaUI", "MicrowaveApp.AvaloniaUI\MicrowaveApp.AvaloniaUI.csproj", "{4997CF2D-0B9F-4A03-AB18-5DAD81B335B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C2BAC85-EF15-4DC5-8C7F-72537D0F3982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C2BAC85-EF15-4DC5-8C7F-72537D0F3982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C2BAC85-EF15-4DC5-8C7F-72537D0F3982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C2BAC85-EF15-4DC5-8C7F-72537D0F3982}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B11CD11F-3A60-479F-AB7D-5BC3C761B6CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B11CD11F-3A60-479F-AB7D-5BC3C761B6CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B11CD11F-3A60-479F-AB7D-5BC3C761B6CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B11CD11F-3A60-479F-AB7D-5BC3C761B6CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79D7D230-1FAC-422E-AFC3-7B22D781ED4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D7D230-1FAC-422E-AFC3-7B22D781ED4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D7D230-1FAC-422E-AFC3-7B22D781ED4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D7D230-1FAC-422E-AFC3-7B22D781ED4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4997CF2D-0B9F-4A03-AB18-5DAD81B335B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4997CF2D-0B9F-4A03-AB18-5DAD81B335B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4997CF2D-0B9F-4A03-AB18-5DAD81B335B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4997CF2D-0B9F-4A03-AB18-5DAD81B335B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

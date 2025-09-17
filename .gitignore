@@ -380,6 +380,9 @@ MicrowaveApp.UI/bin/
 MicrowaveApp.UI/obj/
 MicrowaveApp.UI/TestResults/
 
+MicrowaveApp.AvaloniaUI/bin/
+MicrowaveApp.AvaloniaUI/obj/
+
 ## MicrowaveApp.WebApi specific
 MicrowaveApp.WebApi/bin/
 MicrowaveApp.WebApi/obj/
@@ -398,8 +401,6 @@ MicrowaveApp.Tests/TestResults/
 
 # Docker
 Dockerfile
-docker-compose.yml
-docker-compose.override.yml
 .dockerignore
 
 # IDE
