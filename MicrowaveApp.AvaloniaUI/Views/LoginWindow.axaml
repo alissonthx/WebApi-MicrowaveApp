@@ -1,0 +1,78 @@
+<Window
+    x:Class="MicrowaveApp.AvaloniaUI.Views.LoginWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:MicrowaveApp.AvaloniaUI.Converters"
+    xmlns:vm="using:MicrowaveApp.AvaloniaUI.ViewModels"
+    Title="Login - Microondas App"
+    Width="400"
+    Height="350"
+    CanResize="False"
+    WindowStartupLocation="CenterScreen"
+    x:DataType="vm:LoginWindowViewModel">
+
+    <Window.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNot" />
+        <converters:BoolToTextConverter x:Key="BoolToText" />
+        <converters:StringNotEmptyToVisibleConverter x:Key="StringNotEmpty" />
+    </Window.Resources>
+
+    <Window.DataContext>
+        <vm:LoginWindowViewModel />
+    </Window.DataContext>
+
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*">
+        <!--  Title  -->
+        <TextBlock
+            Grid.Row="0"
+            Margin="0,0,0,20"
+            HorizontalAlignment="Center"
+            FontSize="20"
+            FontWeight="Bold"
+            Text="Microondas App Login" />
+
+        <TextBlock
+            Grid.Row="1"
+            Margin="0,0,0,5"
+            Text="Username:" />
+        <TextBox
+            Grid.Row="2"
+            Margin="0,0,0,10"
+            IsEnabled="{Binding IsLoading, Converter={StaticResource BoolNot}}"
+            Text="{Binding Username}" />
+
+        <TextBlock
+            Grid.Row="3"
+            Margin="0,0,0,5"
+            Text="Password:" />
+        <TextBox
+            Grid.Row="4"
+            Margin="0,0,0,15"
+            IsEnabled="{Binding IsLoading, Converter={StaticResource BoolNot}}"
+            PasswordChar="*"
+            Text="{Binding Password}" />
+
+        <TextBlock
+            Grid.Row="5"
+            Margin="0,0,0,10"
+            Foreground="Red"
+            Text="{Binding ErrorMessage}"
+            TextWrapping="Wrap"
+            IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+
+        <Button
+            Grid.Row="6"
+            Height="40"
+            Margin="0,0,0,10"
+            Command="{Binding LoginCommand}"
+            Content="{Binding IsLoading, Converter={StaticResource BoolToText}, ConverterParameter='Logging in...|Login'}"
+            IsEnabled="{Binding IsLoading, Converter={StaticResource BoolNot}}" />
+
+        <Button
+            Grid.Row="7"
+            Height="40"
+            Background="LightGray"
+            Command="{Binding ExitCommand}"
+            Content="Exit" />
+    </Grid>
+</Window>
