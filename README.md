@@ -14,7 +14,6 @@
 1. **Clone the repository**:
 ```bash
 git clone https://github.com/alissonthx/MicrowaveApp.git
-cd MicrowaveApp
 ```
 2. **Restore dependencies / Restaurar pacotes**:
 ```bash
