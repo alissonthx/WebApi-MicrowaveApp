@@ -32,7 +32,8 @@ namespace MicrowaveApp.WebApi.Controllers
 
         private string GenerateJwtToken(string username, string password)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("dsaf4as545425345dsf%#$645123123437dsdfds2")); 
+            var secretKey = _config["Api:SecretKey"];
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(

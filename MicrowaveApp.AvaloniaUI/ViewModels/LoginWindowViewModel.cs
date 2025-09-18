@@ -7,11 +7,13 @@ using Avalonia.Controls;
 using System;
 using MicrowaveApp.AvaloniaUI.Views;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
 
 namespace MicrowaveApp.AvaloniaUI.ViewModels
 {
     public partial class LoginWindowViewModel : ObservableObject
     {
+        private string _token;
         private readonly HttpClient _httpClient;
         private Window? _window;
 
@@ -74,22 +76,22 @@ namespace MicrowaveApp.AvaloniaUI.ViewModels
 
                     if (authResponse?.Success == true)
                     {
-                        // Store token if needed
-                        // Open main window
+                        // Store on frontend token
+                        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authResponse.Token);
+
                         var mainWindow = new MainWindow();
                         mainWindow.Show();
 
-                        // Close login window
                         _window?.Close();
                     }
                     else
                     {
-                        ErrorMessage = authResponse?.Message ?? "Login failed";
+                        ErrorMessage = authResponse?.Message ?? "Login falhou";
                     }
                 }
                 else
                 {
-                    ErrorMessage = "Invalid username or password";
+                    ErrorMessage = "Senha ou usuário inválidos";
                 }
             }
             catch (Exception ex)
