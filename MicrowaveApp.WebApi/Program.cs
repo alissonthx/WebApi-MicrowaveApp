@@ -1,50 +1,116 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
+using MicrowaveApp.Business;
+using MicrowaveApp.Business.Interfaces;
+using MicrowaveApp.Business.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//  Register Services 
+builder.Services.AddSingleton<IProgramRepository>(sp =>
+{
+    var env = sp.GetRequiredService<IWebHostEnvironment>();
+    var path = Path.Combine(env.ContentRootPath, "programs.json");
+    return new JsonProgramRepository(path);
+});
+
+builder.Services.AddSingleton<Microwave>();
+builder.Services.AddSingleton<ProgramService>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-// CORS policy
+//  Swagger with JWT 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Microwave Web Api",
+        Version = "v1"
+    });
+
+    // JWT Authorization
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Cabeçalho de autorização JWT usando o esquema Bearer. Digite 'Bearer' [espaço] e, em seguida, seu token na entrada de texto abaixo.",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+//  CORS 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:7292") 
+        policy.WithOrigins("http://localhost:7292")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
     });
 });
 
-//JWT Authentication
-builder.Services.AddAuthentication()
-.AddJwtBearer("main-scheme", jwtOptions =>
-{
-    jwtOptions.Authority = builder.Configuration["Api:Authority"];
-    jwtOptions.Audience = builder.Configuration["Api:Audience"];
-    jwtOptions.TokenValidationParameters = new TokenValidationParameters
+//  JWT Authentication 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = false, 
-        ValidateAudience = false, 
-        ValidateIssuerSigningKey = true,
-        ValidAudiences = builder.Configuration.GetSection("Api:ValidAudiences").Get<string[]>(),
-        ValidIssuers = builder.Configuration.GetSection("Api:ValidIssuers").Get<string[]>(),
-        //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Api:Key"]!))
-    };
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
 
-    jwtOptions.MapInboundClaims = false;
-});
+            ValidIssuer = builder.Configuration["Api:Issuer"],
+            ValidAudience = builder.Configuration["Api:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Api:SecretKey"]!)
+            ),
+
+            ClockSkew = TimeSpan.Zero
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Falha na autenticação: {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                Console.WriteLine("Token validado com sucesso");
+                return Task.CompletedTask;
+            }
+        };
+    });
 
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//  Middleware 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -52,11 +118,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

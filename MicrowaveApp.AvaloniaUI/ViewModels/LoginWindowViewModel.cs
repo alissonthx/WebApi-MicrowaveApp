@@ -1,119 +1,67 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
-using Avalonia.Controls;
+using ReactiveUI;
+using System.Reactive;
+using MicrowaveApp.AvaloniaUI.Services;
 using System;
-using MicrowaveApp.AvaloniaUI.Views;
-using System.Threading.Tasks;
 
 namespace MicrowaveApp.AvaloniaUI.ViewModels
 {
-    public partial class LoginWindowViewModel : ObservableObject
+    public class LoginWindowViewModel : ReactiveObject
     {
-        private readonly HttpClient _httpClient;
-        private Window? _window;
-
-        [ObservableProperty]
-        private string _username = string.Empty;
-
-        [ObservableProperty]
-        private string _password = string.Empty;
-
-        [ObservableProperty]
-        private string _errorMessage = string.Empty;
-
-        [ObservableProperty]
-        private bool _isLoading = false;
+        private readonly ApiService _api = new();
+        private string _username = "";
+        private string _password = "";
+        private string _status = "Insira as credenciais e clique em Login";
+        private bool _isLoggingIn = false;
 
         public LoginWindowViewModel()
         {
-            _httpClient = new HttpClient
+            LoginCommand = ReactiveCommand.CreateFromTask(async () =>
             {
-                BaseAddress = new Uri("http://localhost:5000/api/") // Adjust based on your API
-            };
-        }
-
-        public void SetWindow(Window window)
-        {
-            _window = window;
-        }
-
-        [RelayCommand]
-        private async Task Login()
-        {
-            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
-            {
-                ErrorMessage = "Por favor insira login e senha";
-                return;
-            }
-
-            IsLoading = true;
-            ErrorMessage = string.Empty;
-
-            try
-            {
-                var loginData = new
+                IsLoggingIn = true;
+                Status = "Logando ...";
+                
+                var success = await _api.LoginAndSetToken(Username, Password);
+                
+                if (success)
                 {
-                    Username,
-                    Password
-                };
-
-                var json = JsonSerializer.Serialize(loginData);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PostAsync("auth/login", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    var authResponse = JsonSerializer.Deserialize<AuthResponse>(
-                        responseContent,
-                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-                    if (authResponse?.Success == true)
-                    {
-                        // Store token if needed
-                        // Open main window
-                        var mainWindow = new MainWindow();
-                        mainWindow.Show();
-
-                        // Close login window
-                        _window?.Close();
-                    }
-                    else
-                    {
-                        ErrorMessage = authResponse?.Message ?? "Login failed";
-                    }
+                    Status = "Login com sucesso!";
+                    LoginSuccessful?.Invoke(_api);
                 }
                 else
                 {
-                    ErrorMessage = "Invalid username or password";
+                    Status = "Login falhou. Tente Novamente.";
                 }
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = $"Error: {ex.Message}";
-            }
-            finally
-            {
-                IsLoading = false;
-            }
+                
+                IsLoggingIn = false;
+            });
         }
 
-        [RelayCommand]
-        private void Exit()
+        public string Username
         {
-            _window?.Close();
-            Environment.Exit(0);
+            get => _username;
+            set => this.RaiseAndSetIfChanged(ref _username, value);
         }
-    }
 
-    public class AuthResponse
-    {
-        public bool Success { get; set; }
-        public string Message { get; set; } = string.Empty;
-        public string Token { get; set; } = string.Empty;
+        public string Password
+        {
+            get => _password;
+            set => this.RaiseAndSetIfChanged(ref _password, value);
+        }
+
+        public string Status
+        {
+            get => _status;
+            set => this.RaiseAndSetIfChanged(ref _status, value);
+        }
+
+        public bool IsLoggingIn
+        {
+            get => _isLoggingIn;
+            set => this.RaiseAndSetIfChanged(ref _isLoggingIn, value);
+        }
+
+        public ReactiveCommand<Unit, Unit> LoginCommand { get; }
+        
+        public event Action<ApiService>? LoginSuccessful;
     }
 }

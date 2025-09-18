@@ -42,7 +42,7 @@ namespace MicrowaveApp.Business.Services
 
         public void RemoveCustomProgram(string name)
         {
-            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Program identifier cannot be null or empty");
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("O identificador do programa não pode ser nulo ou vazio");
 
             var programs = GetAllCustomPrograms().ToList();
             CustomProgram programToRemove;
@@ -62,8 +62,8 @@ namespace MicrowaveApp.Business.Services
             {
                 throw new KeyNotFoundException(
                     name.Length == 1
-                        ? $"Program with heating character '{name}' not found"
-                        : $"Program with name '{name}' not found");
+                        ? $"Programa com caractere de aquecimento '{name}' não encontrado"
+                        : $"Programa com nome '{name}' não encontrado");
             }
 
             programs.Remove(programToRemove);
