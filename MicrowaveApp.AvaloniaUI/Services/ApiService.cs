@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using MicrowaveApp.Business.Models;
 
 namespace MicrowaveApp.AvaloniaUI.Services
 {
@@ -68,14 +69,30 @@ namespace MicrowaveApp.AvaloniaUI.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<string> GetStatus()
+        public async Task<PredefinedProgram[]> GetPredefinedPrograms()
         {
-            var response = await _client.GetAsync($"{_baseUrl}/Microwave/status");
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadAsStringAsync();
-            }
-            return "Erro ao checar status";
+            var response = await _client.GetAsync($"{_baseUrl}/Programs/predefined");
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<PredefinedProgram[]>(json);
         }
+
+        public async Task<CustomProgram[]> GetCustomPrograms()
+        {
+            var response = await _client.GetAsync($"{_baseUrl}/Programs/custom");
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<CustomProgram[]>(json);
+        }
+
+        // public async Task<string> GetStatus()
+        // {
+        //     var response = await _client.GetAsync($"{_baseUrl}/Microwave/status");
+        //     if (response.IsSuccessStatusCode)
+        //     {
+        //         return await response.Content.ReadAsStringAsync();
+        //     }
+        //     return "Erro ao checar status";
+        // }
     }
 }
