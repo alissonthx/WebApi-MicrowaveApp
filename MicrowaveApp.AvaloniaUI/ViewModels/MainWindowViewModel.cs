@@ -1,199 +1,70 @@
-﻿using System.Timers;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Avalonia.Threading;
-using MicrowaveApp.Business;
+﻿using ReactiveUI;
+using System.Reactive;
+using MicrowaveApp.AvaloniaUI.Services;
 
 namespace MicrowaveApp.AvaloniaUI.ViewModels
 {
-    public partial class MainWindowViewModel : ObservableObject
+    public class MainWindowViewModel : ReactiveObject
     {
-        private readonly Microwave _microwave = new Microwave();
-        private int _initialTimeInSeconds = 0;
-        private readonly Timer _timer;
+        private readonly ApiService _api;
+        private string _status = "Ready to use microwave";
+        private int _time = 30;
+        private int _power = 50;
 
-        // Bindable Properties
-        [ObservableProperty]
-        private string _displayTime = "00:00";
-
-        [ObservableProperty]
-        private string _displayPower = "10";
-
-        [ObservableProperty]
-        private bool _isRunning = false;
-
-        [ObservableProperty]
-        private bool _isPaused = false;
-
-        [ObservableProperty]
-        private int _progressValue = 0;
-
-        [ObservableProperty]
-        private string _instructions = "";
-
-        public MainWindowViewModel()
+        public MainWindowViewModel(ApiService api)
         {
-            _timer = new Timer(1000);
-            _timer.Elapsed += Timer_Elapsed!;
-            _timer.AutoReset = true;
-            
-            // Subscribe to microwave events
-            _microwave.HeatingProgressChanged += OnHeatingProgressChanged;
-            _microwave.HeatingStarted += OnHeatingStarted;
-            _microwave.HeatingPaused += OnHeatingPaused;
-            _microwave.HeatingResumed += OnHeatingResumed;
-            _microwave.HeatingCanceled += OnHeatingCanceled;
-            _microwave.HeatingFinished += OnHeatingFinished;
-        }
+            _api = api;
 
-        // Event handlers
-        private void OnHeatingProgressChanged(string progress)
-        {
-            Dispatcher.UIThread.InvokeAsync(() =>
+            StartCommand = ReactiveCommand.CreateFromTask(async () =>
             {
-                Instructions = progress;
-            });
-        }
-
-        private void OnHeatingStarted()
-        {
-            Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                IsRunning = true;
-                IsPaused = false;
-            });
-        }
-
-        private void OnHeatingPaused()
-        {
-            Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                IsPaused = true;
-            });
-        }
-
-        private void OnHeatingResumed()
-        {
-            Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                IsPaused = false;
-            });
-        }
-
-        private void OnHeatingCanceled()
-        {
-            Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                IsRunning = false;
-                IsPaused = false;
-                DisplayTime = "00:00";
-                ProgressValue = 0;
-            });
-        }
-
-        private void OnHeatingFinished()
-        {
-            Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                IsRunning = false;
-                IsPaused = false;
-                DisplayTime = "00:00";
-                ProgressValue = 100;
-                // Play sound logic here
-            });
-        }
-
-        [RelayCommand]
-        private void AddNumber(string number)
-        {
-            if (!_microwave.IsRunning)
-            {
-                // Convert current time to seconds, add the number, and set back
-                int currentSeconds = TimeStringToSeconds(DisplayTime);
-                int newSeconds = currentSeconds * 10 + int.Parse(number);
-                
-                if (newSeconds <= 120) // Max 2 minutes
+                if (await _api.StartMicrowave(Time, Power))
                 {
-                    DisplayTime = Microwave.FormatTime(newSeconds);
+                    Status = $"Started: {Time}s at {Power}%";
                 }
-            }
-        }
-
-        [RelayCommand]
-        private void Start()
-        {
-            if (!_microwave.IsRunning)
-            {
-                int timeInSeconds = TimeStringToSeconds(DisplayTime);
-                int power = int.Parse(DisplayPower);
-                
-                if (timeInSeconds > 0)
+                else
                 {
-                    _initialTimeInSeconds = timeInSeconds;
-                    _microwave.StartHeating(timeInSeconds, power);
+                    Status = "Start failed";
                 }
-            }
-        }
+            });
 
-        [RelayCommand]
-        private void Stop()
-        {
-            _microwave.PauseOrCancel();
-        }
-
-        [RelayCommand]
-        private void Pause()
-        {
-            if (_microwave.IsRunning && !_microwave.IsPaused)
+            StopCommand = ReactiveCommand.CreateFromTask(async () =>
             {
-                _microwave.PauseOrCancel();
-            }
-            else if (_microwave.IsPaused)
+                if (await _api.StopMicrowave())
+                {
+                    Status = "Stopped";
+                }
+                else
+                {
+                    Status = "Stop failed";
+                }
+            });
+
+            StatusCommand = ReactiveCommand.CreateFromTask(async () =>
             {
-                // Resume heating
-                int timeInSeconds = TimeStringToSeconds(DisplayTime);
-                int power = int.Parse(DisplayPower);
-                _microwave.StartHeating(timeInSeconds, power);
-            }
+                Status = await _api.GetStatus();
+            });
         }
 
-        [RelayCommand]
-        private void SetPower()
+        public string Status
         {
-            if (!_microwave.IsRunning)
-            {
-                int currentPower = int.Parse(DisplayPower);
-                int newPower = (currentPower % 10) + 1;
-                DisplayPower = newPower.ToString();
-            }
+            get => _status;
+            set => this.RaiseAndSetIfChanged(ref _status, value);
         }
 
-        [RelayCommand]
-        private void QuickStart()
+        public int Time
         {
-            _microwave.QuickStart();
-            DisplayTime = "00:30";
-            DisplayPower = "10";
+            get => _time;
+            set => this.RaiseAndSetIfChanged(ref _time, value);
         }
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        public int Power
         {
+            get => _power;
+            set => this.RaiseAndSetIfChanged(ref _power, value);
         }
 
-        private int TimeStringToSeconds(string timeString)
-        {
-            if (timeString.Contains(":"))
-            {
-                var parts = timeString.Split(':');
-                int minutes = int.Parse(parts[0]);
-                int seconds = int.Parse(parts[1]);
-                return minutes * 60 + seconds;
-            }
-            else if (timeString.EndsWith("s"))
-            {
-                return int.Parse(timeString.TrimEnd('s'));
-            }
-            return int.Parse(timeString);
-        }
+        public ReactiveCommand<Unit, Unit> StartCommand { get; }
+        public ReactiveCommand<Unit, Unit> StopCommand { get; }
+        public ReactiveCommand<Unit, Unit> StatusCommand { get; }
     }
 }

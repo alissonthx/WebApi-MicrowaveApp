@@ -1,64 +1,65 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:MicrowaveApp.AvaloniaUI.ViewModels"
-        x:Class="MicrowaveApp.AvaloniaUI.Views.MainWindow"
-        Title="Microondas App"
-        Width="500" Height="600"
-        WindowStartupLocation="CenterScreen"
-        x:DataType="vm:MainWindowViewModel">
-    
-    <Window.DataContext>
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:MicrowaveApp.AvaloniaUI.ViewModels"
+    x:Class="MicrowaveApp.AvaloniaUI.Views.MainWindow"
+    Title="Microondas App"
+    Width="400"
+    Height="300"
+    WindowStartupLocation="CenterScreen"
+    x:DataType="vm:MainWindowViewModel">
+
+    <!-- <Window.DataContext>
         <vm:MainWindowViewModel />
-    </Window.DataContext>
+    </Window.DataContext> -->
 
-    <StackPanel Margin="20" Spacing="10">
-        <!-- Display -->
-        <Border Background="Black" CornerRadius="5" Padding="20">
-            <StackPanel HorizontalAlignment="Center">
-                <TextBlock Text="{Binding DisplayTime}" FontSize="48" Foreground="Red"/>
-                <TextBlock Text="{Binding DisplayPower, StringFormat='Potência: {0}'}" FontSize="16" Foreground="White"/>
+    <StackPanel Margin="20" Spacing="15">
+
+        <!--  Status  -->
+        <TextBlock
+            FontSize="16"
+            FontWeight="Bold"
+            Text="{Binding Status}"
+            TextAlignment="Center" />
+
+        <!--  Controls  -->
+        <StackPanel Spacing="10">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBlock Width="60" Text="Time:" />
+                <Slider
+                    Width="150"
+                    Maximum="300"
+                    Minimum="10"
+                    Value="{Binding Time}" />
+                <TextBlock Text="{Binding Time}" />
             </StackPanel>
-        </Border>
 
-        <!-- Progress Bar -->
-        <ProgressBar Minimum="0" Maximum="100" Value="{Binding ProgressValue}" Height="20" />
-
-        <!-- Instructions -->
-        <TextBox Text="{Binding Instructions}" Height="100" IsReadOnly="True" TextWrapping="Wrap"/>
-
-        <!-- Number Pad -->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Content="1" Command="{Binding AddNumberCommand}" CommandParameter="1" Grid.Row="0" Grid.Column="0" Margin="2"/>
-            <Button Content="2" Command="{Binding AddNumberCommand}" CommandParameter="2" Grid.Row="0" Grid.Column="1" Margin="2"/>
-            <Button Content="3" Command="{Binding AddNumberCommand}" CommandParameter="3" Grid.Row="0" Grid.Column="2" Margin="2"/>
-            <Button Content="4" Command="{Binding AddNumberCommand}" CommandParameter="4" Grid.Row="1" Grid.Column="0" Margin="2"/>
-            <Button Content="5" Command="{Binding AddNumberCommand}" CommandParameter="5" Grid.Row="1" Grid.Column="1" Margin="2"/>
-            <Button Content="6" Command="{Binding AddNumberCommand}" CommandParameter="6" Grid.Row="1" Grid.Column="2" Margin="2"/>
-            <Button Content="7" Command="{Binding AddNumberCommand}" CommandParameter="7" Grid.Row="2" Grid.Column="0" Margin="2"/>
-            <Button Content="8" Command="{Binding AddNumberCommand}" CommandParameter="8" Grid.Row="2" Grid.Column="1" Margin="2"/>
-            <Button Content="9" Command="{Binding AddNumberCommand}" CommandParameter="9" Grid.Row="2" Grid.Column="2" Margin="2"/>
-            <Button Content="0" Command="{Binding AddNumberCommand}" CommandParameter="0" Grid.Row="3" Grid.Column="1" Margin="2"/>
-        </Grid>
-
-        <!-- Control Buttons -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-            <Button Content="Start" Command="{Binding StartCommand}" Width="80"/>
-            <Button Content="Pause" Command="{Binding PauseCommand}" Width="80"/>
-            <Button Content="Stop" Command="{Binding StopCommand}" Width="80"/>
-            <Button Content="Potência" Command="{Binding SetPowerCommand}" Width="100"/>
-            <Button Content="Quick Start" Command="{Binding QuickStartCommand}" Width="100"/>
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBlock Width="60" Text="Power:" />
+                <Slider
+                    Width="150"
+                    Maximum="100"
+                    Minimum="10"
+                    Value="{Binding Power}" />
+                <TextBlock Text="{Binding Power}" />
+            </StackPanel>
         </StackPanel>
+
+        <!--  Buttons  -->
+        <StackPanel
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="10">
+            <Button
+                Background="Green"
+                Command="{Binding StartCommand}"
+                Content="Start" />
+            <Button
+                Background="Red"
+                Command="{Binding StopCommand}"
+                Content="Stop" />
+            <Button Command="{Binding StatusCommand}" Content="Status" />
+        </StackPanel>
+
     </StackPanel>
 </Window>
