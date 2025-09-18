@@ -1,0 +1,11 @@
+[
+  {
+    "Name": "Teste",
+    "Food": "Comida Teste",
+    "TimeInSeconds": 100,
+    "Power": 10,
+    "HeatingCharacter": ";",
+    "Instructions": "Instrução teste",
+    "IsPredefined": true
+  }
+]
