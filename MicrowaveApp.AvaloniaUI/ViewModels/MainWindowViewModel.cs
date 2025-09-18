@@ -19,11 +19,11 @@ namespace MicrowaveApp.AvaloniaUI.ViewModels
             {
                 if (await _api.StartMicrowave(Time, Power))
                 {
-                    Status = $"Started: {Time}s at {Power}%";
+                    Status = $"Iniciou à: {Time}s em {Power}%";
                 }
                 else
                 {
-                    Status = "Start failed";
+                    Status = "Início falhou";
                 }
             });
 
@@ -31,11 +31,11 @@ namespace MicrowaveApp.AvaloniaUI.ViewModels
             {
                 if (await _api.StopMicrowave())
                 {
-                    Status = "Stopped";
+                    Status = "Pausado";
                 }
                 else
                 {
-                    Status = "Stop failed";
+                    Status = "Pausa falhou";
                 }
             });
 

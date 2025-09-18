@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -10,21 +11,46 @@ namespace MicrowaveApp.AvaloniaUI.Services
         private readonly HttpClient _client = new();
         private readonly string _baseUrl = "http://localhost:5039/api";
 
-        public async Task<bool> LoginAndSetToken()
+        public async Task<bool> LoginAndSetToken(string username, string password)
         {
-            var login = new { Username = "", Password = "" };
-            var json = JsonSerializer.Serialize(login);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync($"{_baseUrl}/Auth/login", content);
-            if (response.IsSuccessStatusCode)
+            try
             {
+                var login = new { Username = username, Password = password };
+                var json = JsonSerializer.Serialize(login);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _client.PostAsync($"{_baseUrl}/Auth/login", content);
                 var result = await response.Content.ReadAsStringAsync();
-                var token = JsonSerializer.Deserialize<JsonElement>(result).GetProperty("Token").GetString();
-                _client.DefaultRequestHeaders.Authorization = new("Bearer", token);
-                return true;
+
+                Console.WriteLine("Login API Response: " + result);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    using var doc = JsonDocument.Parse(result);
+                    if (doc.RootElement.TryGetProperty("token", out var tokenElement))
+                    {
+                        var token = tokenElement.GetString();
+                        _client.DefaultRequestHeaders.Authorization =
+                            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Token not found in response.");
+                        return false;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Login failed: " + result);
+                    return false;
+                }
             }
-            return false;
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception during login: " + ex.Message);
+                return false;
+            }
         }
 
         public async Task<bool> StartMicrowave(int seconds, int power)
@@ -49,7 +75,7 @@ namespace MicrowaveApp.AvaloniaUI.Services
             {
                 return await response.Content.ReadAsStringAsync();
             }
-            return "Error getting status";
+            return "Erro ao checar status";
         }
     }
 }

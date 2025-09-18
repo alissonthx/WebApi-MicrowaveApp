@@ -2,21 +2,36 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using MicrowaveApp.Business; 
+using MicrowaveApp.Business;
+using MicrowaveApp.Business.Interfaces;
+using MicrowaveApp.Business.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//  Register Services 
+builder.Services.AddSingleton<IProgramRepository>(sp =>
+{
+    var env = sp.GetRequiredService<IWebHostEnvironment>();
+    var path = Path.Combine(env.ContentRootPath, "programs.json");
+    return new JsonProgramRepository(path);
+});
+
+builder.Services.AddSingleton<Microwave>();
+builder.Services.AddSingleton<ProgramService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSingleton<Microwave>();
-
-// Configure Swagger with JWT Authentication
+//  Swagger with JWT 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Microwave Web Api", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Microwave Web Api",
+        Version = "v1"
+    });
 
-    // Add JWT Authentication to Swagger
+    // JWT Authorization
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "Cabeçalho de autorização JWT usando o esquema Bearer. Digite 'Bearer' [espaço] e, em seguida, seu token na entrada de texto abaixo.",
@@ -42,7 +57,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// CORS policy
+//  CORS 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -54,11 +69,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-// JWT Authentication - Using configuration for security
+//  JWT Authentication 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.RequireHttpsMetadata = false; // Allow HTTP for development
+        options.RequireHttpsMetadata = false;
         options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -66,27 +81,26 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
-            
+
             ValidIssuer = builder.Configuration["Api:Issuer"],
             ValidAudience = builder.Configuration["Api:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Api:SecretKey"]!) // Read from config
+                Encoding.UTF8.GetBytes(builder.Configuration["Api:SecretKey"]!)
             ),
-            
+
             ClockSkew = TimeSpan.Zero
         };
-        
-        // debugging events
+
         options.Events = new JwtBearerEvents
         {
             OnAuthenticationFailed = context =>
             {
-                Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                Console.WriteLine($"Falha na autenticação: {context.Exception.Message}");
                 return Task.CompletedTask;
             },
             OnTokenValidated = context =>
             {
-                Console.WriteLine("Token validated successfully");
+                Console.WriteLine("Token validado com sucesso");
                 return Task.CompletedTask;
             }
         };
@@ -96,6 +110,7 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+//  Middleware 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

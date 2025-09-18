@@ -8,8 +8,8 @@ namespace MicrowaveApp.AvaloniaUI.ViewModels
     public class LoginWindowViewModel : ReactiveObject
     {
         private readonly ApiService _api = new();
-        private string _username = "admin";
-        private string _password = "admin123";
+        private string _username = "";
+        private string _password = "";
         private string _status = "Insira as credenciais e clique em Login";
         private bool _isLoggingIn = false;
 
@@ -20,7 +20,7 @@ namespace MicrowaveApp.AvaloniaUI.ViewModels
                 IsLoggingIn = true;
                 Status = "Logando ...";
                 
-                var success = await _api.LoginAndSetToken();
+                var success = await _api.LoginAndSetToken(Username, Password);
                 
                 if (success)
                 {
