@@ -8,6 +8,7 @@
 - Custom heating profiles
 - Modern .NET 8 backend
 - Secure API endpoints
+- AvaloniaUI multplatform desktop UI
 
 ### Installation
 
@@ -17,7 +18,7 @@ git clone https://github.com/alissonthx/MicrowaveApp.git
 ```
 2. **Restore dependencies / Restaurar pacotes**:
 ```bash
-dotnet restore .\MicrowaveApp.UI\MicrowaveApp.sln
+dotnet restore
 ```
 ## ▶️ Run Applications / Executar Aplicações
 
@@ -30,10 +31,13 @@ Run in separate terminals / Executar em terminais separados:
 cd MicrowaveApp.WebApi
 dotnet run
 
+# Backend with swagger running on http://localhost:5039/swagger
+
 # Terminal 2 - UI/Interface
-cd MicrowaveApp.UI
+cd MicrowaveApp.AvaloniaUI
 dotnet run
 ```
+
 
 ## 🔐 Authentication / Autenticação
 
@@ -66,11 +70,6 @@ graph LR
 - InvalidTimeException - Validates time input rules / Valida regras de entrada de tempo
 - Program Repository / Repositório de Programas
 - CRUD operations validation / Validação de operações CRUD
-
-## 📈 Roadmap / Próximos Passos
-- **Add token refresh** / Adicionar renovação de token  
-- **Add database to store users** / **Adicionar banco de dados para guardar usuários**
-- **JWT token expiry tests** / **testes de expiração de token JWT**
 
 ## 📦 Dependencies / Dependências
 
